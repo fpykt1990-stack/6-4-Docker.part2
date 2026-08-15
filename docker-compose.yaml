@@ -22,8 +22,23 @@ services:
       - kurganskiyDA-my-netology-hw
     restart: unless-stopped
 
+  grafana:
+    image: grafana/grafana:latest
+    container_name: kurganskiyDA-netology-grafana
+    ports:
+      - "80:3000"
+    environment:
+      GF_PATHS_CONFIG: /etc/grafana/custom.ini
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/custom.ini:/etc/grafana/custom.ini:ro
+    networks:
+      - kurganskiyDA-my-netology-hw
+    restart: unless-stopped
+
 volumes:
   prometheus-data:
+  grafana-data:
 
 networks:
   kurganskiyDA-my-netology-hw:
