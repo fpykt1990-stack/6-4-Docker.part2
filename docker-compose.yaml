@@ -11,7 +11,9 @@ services:
       - prometheus-data:/prometheus
     networks:
       - kurganskiyDA-my-netology-hw
-    restart: unless-stopped
+    restart: always
+    depends_on:
+      - pushgateway
 
   pushgateway:
     image: prom/pushgateway:latest
@@ -20,7 +22,7 @@ services:
       - "9091:9091"
     networks:
       - kurganskiyDA-my-netology-hw
-    restart: unless-stopped
+    restart: always
 
   grafana:
     image: grafana/grafana:latest
@@ -34,7 +36,9 @@ services:
       - ./grafana/custom.ini:/etc/grafana/custom.ini:ro
     networks:
       - kurganskiyDA-my-netology-hw
-    restart: unless-stopped
+    restart: always
+    depends_on:
+      - prometheus
 
 volumes:
   prometheus-data:
