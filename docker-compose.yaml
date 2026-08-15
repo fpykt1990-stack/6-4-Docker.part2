@@ -1,0 +1,34 @@
+version: "3.9"
+
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: kurganskiyDA-netology-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    networks:
+      - kurganskiyDA-my-netology-hw
+    restart: unless-stopped
+
+  pushgateway:
+    image: prom/pushgateway:latest
+    container_name: kurganskiyDA-netology-pushgateway
+    ports:
+      - "9091:9091"
+    networks:
+      - kurganskiyDA-my-netology-hw
+    restart: unless-stopped
+
+volumes:
+  prometheus-data:
+
+networks:
+  kurganskiyDA-my-netology-hw:
+    name: kurganskiyDA-my-netology-hw
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.5.0.0/16
